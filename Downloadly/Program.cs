@@ -1,9 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.IO;
-
+﻿
 class Program
 {
     private static readonly HttpClient client = new HttpClient();
