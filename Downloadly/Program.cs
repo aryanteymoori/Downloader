@@ -21,7 +21,12 @@ class Program
             if (int.TryParse(Console.ReadLine(), out int downloadTime))
             {
                 cancellationTokenSource = new CancellationTokenSource();
-                await DownloadFileAsync(downloadTime);
+               bool isCompleated = await DownloadFileAsync(downloadTime);
+                if (isCompleated)
+                {
+                    Console.WriteLine("End");
+                    break;
+                }
             }
             else
             {
@@ -30,7 +35,7 @@ class Program
         }
     }
 
-    private static async Task DownloadFileAsync(int downloadTime)
+    private static async Task<bool> DownloadFileAsync(int downloadTime)
     {
         using (var response = await client.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead, cancellationTokenSource.Token))
         {
@@ -58,10 +63,12 @@ class Program
                 {
                     Console.WriteLine("Time is up! Download paused.");
                     cancellationTokenSource.Cancel(); // Cancel the current operation
+                    return false;
                 }
                 else
                 {
                     Console.WriteLine("Download complete.");
+                    return true;
                 }
             }
         }
