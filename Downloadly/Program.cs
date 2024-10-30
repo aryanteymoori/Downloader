@@ -3,8 +3,8 @@ class Program
 {
     private static readonly HttpClient client = new HttpClient();
     private static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-    private static string downloadUrl;
-    private static string filePath;
+    private static string? downloadUrl;
+    private static string? filePath;
     private static long totalBytes = 0;
 
     static async Task Main(string[] args)
@@ -36,7 +36,7 @@ class Program
         {
             response.EnsureSuccessStatusCode(); // Check for a successful response
             using (var stream = await response.Content.ReadAsStreamAsync())
-            using (var fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.None))
+            using (var fileStream = new FileStream(filePath ?? "", FileMode.Append, FileAccess.Write, FileShare.None))
             {
                 byte[] buffer = new byte[8192];
                 int bytesRead;
